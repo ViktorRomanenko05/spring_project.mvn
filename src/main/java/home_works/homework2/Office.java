@@ -1,0 +1,46 @@
+package home_works.homework2;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.HashMap;
+
+public class Office {
+    private static final File file = Path.of("src","main", "java", "home_works", "homework2", "employees.txt").toFile();
+    private static HashMap <String, Employee> employees = new HashMap<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Passanger.class);
+
+    //Метод для парсинга данных из файла и добавления полученных объектов в HashMap
+    public void parseEmployees (){
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] employeeData = line.split(",");
+                if(employeeData.length == 4){
+                    String name = employeeData[0].trim();
+                    String surname = employeeData[1].trim();
+                    LocalDate birthDate = LocalDate.parse(employeeData[2].trim());
+                    Role role = Role.fromStringRole(employeeData[3].trim());
+                    Employee employee = new Employee(name, surname, birthDate, role);
+                    employees.put(employee.getId(), employee);
+                }
+                else {
+                    LOGGER.error("Invalid employee data {}", line);
+                }
+            }
+            LOGGER.info("Employees parsed successfully");
+        } catch (IOException exception) {
+            LOGGER.error(exception.getMessage());
+        }
+    }
+
+    public HashMap <String, Employee> getEmployees() {
+        return employees;
+    }
+}
