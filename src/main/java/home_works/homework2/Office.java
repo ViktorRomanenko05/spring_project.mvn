@@ -50,6 +50,10 @@ public class Office {
                 stewarts.add(employee);
             }
         }
+        if (stewarts.isEmpty()){
+            LOGGER.info("Stewarts not found");
+            return null;
+        }
         int rndNum = faker.random().nextInt(0, stewarts.size()-1);
         Employee stewart = stewarts.get(rndNum);
         employees.get(stewart.getId()).setStatus(EmployeeStatus.BUSY);

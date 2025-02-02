@@ -26,6 +26,7 @@ public class Flight {
     private LocalDateTime arriveTime;
     private ArrayList<Employee> crew;
     private ArrayList<Passanger> passangers;
+    private boolean flightIsOk = false;
 
     public Flight(Plane plane, Destination destinationPoint, Office office, WaitingRoom waitingRoom, String company, String flightNumber) {
         this.plane = plane;
@@ -97,21 +98,23 @@ public class Flight {
             System.out.println("Company: " + company);
             plane.takeoff();
             System.out.println("Departure time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(departureTime));
+            flightIsOk = true;
         }
     }
 
     public void finishFlight () {
-        plane.landing();
-        passangers.clear();
-        if (passangers.isEmpty()){
-            System.out.println("Passengers got out");
+        if (flightIsOk) {
+            plane.landing();
+            passangers.clear();
+            if (passangers.isEmpty()) {
+                System.out.println("Passengers got out");
+            }
+            crew.clear();
+            if (crew.isEmpty()) {
+                System.out.println("Crew got out");
+            }
+            System.out.println("Arrive time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(arriveTime));
         }
-        crew.clear();
-        if (crew.isEmpty()){
-            System.out.println("Crew got out");
-        }
-        System.out.println("Arrive time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(arriveTime));
-
     }
 
     private int checkPilotsQuantity (){
