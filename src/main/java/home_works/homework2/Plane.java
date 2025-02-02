@@ -1,17 +1,30 @@
 package home_works.homework2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Plane {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Plane.class);
 
     private String modelOfPlane;
     private int pilotsQuantity;
     private int stewartsQuantity;
     private int passangersQuantity;
 
-    public Plane() {
-        this.modelOfPlane = "Boeing 777-200ER Dreamliner";
-        this.pilotsQuantity = 2;
-        this.stewartsQuantity = 6;
-        this.passangersQuantity = 314;
+    public Plane(String modelOfPlane, int pilotsQuantity, int stewartsQuantity, int passangersQuantity) {
+        this.modelOfPlane = modelOfPlane;
+        this.pilotsQuantity = pilotsQuantity;
+        this.stewartsQuantity = stewartsQuantity;
+        this.passangersQuantity = passangersQuantity;
+    }
+
+    public void takeoff () {
+        LOGGER.info("The plane took off");
+    }
+
+    public void landing () {
+        LOGGER.info("The plane landed");
     }
 
     public String getModelOfPlane() {

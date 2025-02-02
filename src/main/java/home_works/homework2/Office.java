@@ -1,5 +1,6 @@
 package home_works.homework2;
 
+import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,12 +10,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Office {
     private static final File file = Path.of("src","main", "java", "home_works", "homework2", "employees.txt").toFile();
     private static HashMap <String, Employee> employees = new HashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(Passanger.class);
+    private static Faker faker = new Faker();
 
     //Метод для парсинга данных из файла и добавления полученных объектов в HashMap
     public void parseEmployees (){
@@ -38,6 +41,38 @@ public class Office {
         } catch (IOException exception) {
             LOGGER.error(exception.getMessage());
         }
+    }
+
+    public Employee findStewart () {
+        ArrayList<Employee> stewarts = new ArrayList<>();
+        for (Employee employee : employees.values()){
+            if (employee.getRole() == Role.STEWART && employee.getStatus() != EmployeeStatus.BUSY){
+                stewarts.add(employee);
+            }
+        }
+        int rndNum = faker.random().nextInt(0, stewarts.size()-1);
+        Employee stewart = stewarts.get(rndNum);
+        employees.get(stewart.getId()).setStatus(EmployeeStatus.BUSY);
+        stewart.registrationOnFlight();
+        return stewart;
+    }
+
+    public Employee findPilots () {
+        ArrayList <Employee> pilots = new ArrayList<>();
+        for (Employee employee : employees.values()){
+            if (employee.getRole() == Role.PILOT && employee.getStatus() != EmployeeStatus.BUSY){
+                pilots.add(employee);
+            }
+        }
+        if (pilots.isEmpty()){
+            LOGGER.info("Pilots not found");
+            return null;
+        }
+        int rndNum = faker.random().nextInt(0, pilots.size()-1);
+        Employee pilot = pilots.get(rndNum);
+        employees.get(pilot.getId()).setStatus(EmployeeStatus.BUSY);
+        pilot.registrationOnFlight();
+        return pilot;
     }
 
     public HashMap <String, Employee> getEmployees() {

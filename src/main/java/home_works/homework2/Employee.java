@@ -32,7 +32,7 @@ public class Employee extends Person {
 
     @Override
     public void registrationOnFlight(){
-        LOGGER.info(this.role.getDescription() + " " + this.getName() + " " + this.getSurname() + "registered");
+        LOGGER.info(this.role.getDescription() + " " + this.getName() + " " + this.getSurname() + " registered");
     }
 
 }

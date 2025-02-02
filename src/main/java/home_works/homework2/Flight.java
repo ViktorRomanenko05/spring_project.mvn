@@ -1,33 +1,33 @@
 package home_works.homework2;
 
 import com.github.javafaker.Faker;
+import home_works.homework2.spring.AirportAppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Flight {
 
-    ApplicationContext context = new AnnotationConfigApplicationContext(AirportAppConfig.class);
-    Office office = context.getBean(Office.class);
-    WaitingRoom waitingRoom = context.getBean(WaitingRoom.class);
+    Office office;
+    WaitingRoom waitingRoom;
     private static final Logger LOGGER = LoggerFactory.getLogger(Flight.class);
     Faker faker = new Faker();
 
     private Plane plane;
     private String flightNumber;
     private String company;
-    private Destinations destinationPoint;
+    private Destination destinationPoint;
     private LocalDateTime departureTime;
     private LocalDateTime arriveTime;
     private ArrayList<Employee> crew;
     private ArrayList<Passanger> passangers;
 
-    public Flight(Plane plane, Destinations destinationPoint) {
+    public Flight(Plane plane, Destination destinationPoint, Office office, WaitingRoom waitingRoom) {
         this.plane = plane;
         this.company = "Pan American";
         this.flightNumber = "914";
@@ -36,65 +36,91 @@ public class Flight {
         this.arriveTime = LocalDateTime.now().plusHours(10);
         this.crew = new ArrayList<>();
         this.passangers = new ArrayList<>();
+        this.office = office;
+        this.waitingRoom = waitingRoom;
     }
 
-    public void boarding (){
+    public boolean boarding (){
         for (int i = 0; i < plane.getPilotsQuantity(); i++){
-            crew.add(findPilots());
+            Employee pilot = office.findPilots();
+            if (pilot != null){
+                crew.add(pilot);
+            }
+            else break;
         }
-        LOGGER.info("Pilots on board");
+        if (checkPilotsQuantity() < plane.getPilotsQuantity()) {
+            LOGGER.info("Pilots is missing for departure");
+            return false;
+        }
+        else{
+            LOGGER.info("Pilots on board");
+        }
         for (int i = 0; i < plane.getStewartsQuantity(); i++){
-            crew.add(findStewart());
-        }
-        LOGGER.info("Stewarts on board");
-        for (int i =0; i <plane.getPassangersQuantity(); i++){
-            passangers.add(findPassengers());
-        }
-        LOGGER.info("All passangers on board");
-    }
-
-    private Employee findStewart () {
-        ArrayList <Employee> stewarts = new ArrayList<>();
-        for (Employee employee : office.getEmployees().values()){
-            if (employee.getRole() == Role.STEWART && employee.getStatus() != EmployeeStatus.BUSY){
-                stewarts.add(employee);
+            Employee stewart = office.findStewart();
+            if (stewart != null){
+                crew.add(stewart);
             }
+            else break;
         }
-        int rndNum = faker.random().nextInt(0, stewarts.size()-1);
-        Employee stewart = stewarts.get(rndNum);
-        office.getEmployees().get(stewart.getId()).setStatus(EmployeeStatus.BUSY);
-        return stewart;
+        if (checkStewartsQuantity() < plane.getStewartsQuantity()) {
+            LOGGER.info("Stewarts is missing for departure");
+            return false;
+        }
+        else{
+            LOGGER.info("Stewarts on board");
+        }
+        for (int i = 0; i <plane.getPassangersQuantity(); i++){
+            Passanger passanger = waitingRoom.findPassengers(destinationPoint);
+            if (passanger != null) {
+            passangers.add(passanger);}
+            else break;
+        }
+        if (passangers.isEmpty()) {
+            LOGGER.info("Passangers is missing");
+            return false;
+        }
+        else{
+            line();
+            LOGGER.info(passangers.size() + " Passangers on board");
+        }
+        return true;
     }
 
-    private Employee findPilots () {
-        ArrayList <Employee> pilots = new ArrayList<>();
-        for (Employee employee : office.getEmployees().values()){
-            if (employee.getRole() == Role.PILOT && employee.getStatus() != EmployeeStatus.BUSY){
-                pilots.add(employee);
-            }
+    public void startFlight () {
+        if (!boarding()){
+            line();
+            LOGGER.info("Takeoff is impossible");
         }
-        int rndNum = faker.random().nextInt(0, pilots.size());
-        Employee pilot = pilots.get(rndNum);
-        office.getEmployees().get(pilot.getId()).setStatus(EmployeeStatus.BUSY);
-        return pilot;
+        else {
+            line();
+            plane.takeoff();
+            System.out.println("Departure time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(departureTime));
+        }
     }
 
-    private Passanger findPassengers() {
-        Iterator<Passanger> iterator = waitingRoom.getPassangers().values().iterator();
-
-        while (iterator.hasNext()) {
-            Passanger passanger = iterator.next();
-            for (Ticket ticket : passanger.getTickets().values()) {
-                if (ticket.getDestination() == destinationPoint) {
-                    iterator.remove();
-                    return passanger;
-                }
-            }
+    public void finishFlight () {
+        plane.landing();
+        passangers.clear();
+        if (passangers.isEmpty()){
+            System.out.println("Passengers got out");
         }
-        return null;
+        crew.clear();
+        if (crew.isEmpty()){
+            System.out.println("Crew got out");
+        }
+        System.out.println("Arrive time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(arriveTime));
+
     }
 
+    private int checkPilotsQuantity (){
+        long pilotsQuantity = crew.stream().filter(employee -> employee.getRole() == Role.PILOT ).count();
+        return (int) pilotsQuantity;
+    }
 
+    private int checkStewartsQuantity () {
+        long stewartsQuantity = crew.stream().filter(employee -> employee.getRole() == Role.STEWART).count();
+        return (int) stewartsQuantity;
+    }
 
     public Plane getPlane() {
         return plane;
@@ -112,7 +138,7 @@ public class Flight {
         return departureTime;
     }
 
-    public Destinations getDestination() {
+    public Destination getDestination() {
         return destinationPoint;
     }
 
@@ -126,5 +152,9 @@ public class Flight {
 
     public ArrayList<Passanger> getPassangers() {
         return passangers;
+    }
+
+    private static void line () {
+        System.out.println("---------------------------------------------------------------------------------------");
     }
 }

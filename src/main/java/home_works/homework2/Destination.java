@@ -2,7 +2,7 @@ package home_works.homework2;
 import lombok.Getter;
 
 @Getter
-public enum Destinations {
+public enum Destination {
     PARIS("Paris"),
     LONDON("London"),
     BERLIN("Berlin"),
@@ -11,7 +11,7 @@ public enum Destinations {
 
     private final String description;
 
-    Destinations(String description) {
+    Destination(String description) {
         this.description = description;
     }
 

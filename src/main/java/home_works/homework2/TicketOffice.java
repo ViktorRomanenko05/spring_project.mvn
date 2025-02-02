@@ -1,21 +1,20 @@
 package home_works.homework2;
 
 import com.github.javafaker.Faker;
-import lessons.lesson2.spring.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class TicketOffice {
-    ApplicationContext context = new AnnotationConfigApplicationContext(AirportAppConfig.class);
-    Office office = context.getBean(Office.class);
+
+    private final Office office;
     Faker faker = new Faker();
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketOffice.class);
+
+    public TicketOffice(Office office) {
+        this.office = office;
+    }
 
     private static HashMap<String, Ticket> tickets = new HashMap<>();
     ArrayList<Employee> salesAgents = new ArrayList<>();
@@ -29,9 +28,9 @@ public class TicketOffice {
     }
 
 
-    private Destinations randomDestination () {
-        Destinations [] destinations = {Destinations.BERLIN, Destinations.LONDON,
-                Destinations.MIAMI, Destinations.PARIS, Destinations.NEW_YORK};
+    private Destination randomDestination () {
+        Destination[] destinations = {Destination.BERLIN, Destination.LONDON,
+                Destination.MIAMI, Destination.PARIS, Destination.NEW_YORK};
         int rndNum = faker.random().nextInt(0, destinations.length-1);
         return destinations[rndNum];
     }

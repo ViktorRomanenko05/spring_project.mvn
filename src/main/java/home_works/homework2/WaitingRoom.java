@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class WaitingRoom {
     private static HashMap <String, Passanger> passangers = new HashMap<>();
@@ -18,6 +19,23 @@ public class WaitingRoom {
             }
         }
         LOGGER.info("Waiting room is full");
+    }
+
+    public Passanger findPassengers(Destination destinationPoint) {
+        Iterator<Passanger> iterator = passangers.values().iterator();
+
+        while (iterator.hasNext()) {
+            Passanger passanger = iterator.next();
+            for (Ticket ticket : passanger.getTickets().values()) {
+                if (ticket.getDestination() == destinationPoint && ticket.getStatus() == TicketStatus.CONFIRMED) {
+                    ticket.setStatus(TicketStatus.USED);
+                    iterator.remove();
+                    passanger.registrationOnFlight();
+                    return passanger;
+                }
+            }
+        }
+        return null;
     }
 
     public HashMap<String, Passanger> getPassangers() {

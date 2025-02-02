@@ -11,12 +11,12 @@ public class Ticket {
     private final String ticketId;
     private final LocalDateTime purchaseTime;
     private LocalDateTime expirationTime;
-    private final Destinations destination;
+    private final Destination destination;
     private TicketStatus status;
     private final Employee salesAgent;
     private final Passanger passanger;
 
-    public Ticket(Destinations destination, Employee salesAgent, Passanger passanger) {
+    public Ticket(Destination destination, Employee salesAgent, Passanger passanger) {
         this.ticketId = faker.idNumber().valid();
         this.purchaseTime = LocalDateTime.now();
         this.expirationTime = purchaseTime.plusDays(3);
@@ -38,7 +38,7 @@ public class Ticket {
         return expirationTime;
     }
 
-    public Destinations getDestination() {
+    public Destination getDestination() {
         return destination;
     }
 
