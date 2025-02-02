@@ -25,6 +25,7 @@ public class TicketOffice {
        passanger.getTickets().put(ticket.getTicketId(), ticket);
        tickets.put(ticket.getTicketId(), ticket);
        LOGGER.info(passanger.getName() + " " + passanger.getSurname() + " purchased the ticket to " + ticket.getDestination().getDescription() + " (Sales agent: " + ticket.getSalesAgent().getName() + " " + ticket.getSalesAgent().getSurname() + ")");
+       LOGGER.info("Ticket #" + ticket.getTicketId() + ", status: " + ticket.getStatus().getDescription());
     }
 
 

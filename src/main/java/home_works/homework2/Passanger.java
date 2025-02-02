@@ -18,6 +18,6 @@ public class Passanger extends Person {
 
     @Override
     public void registrationOnFlight() {
-        LOGGER.info("Passanger " + this.getName() + " " + this.getSurname() + " Was registered");
+        LOGGER.info("Passanger " + this.getName() + " " + this.getSurname() + " was registered");
     }
 }

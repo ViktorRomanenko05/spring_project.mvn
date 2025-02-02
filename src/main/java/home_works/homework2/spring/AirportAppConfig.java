@@ -31,7 +31,7 @@ public class AirportAppConfig {
     public Flight flightToNewYork (Plane plane, Office office, WaitingRoom waitingRoom) {
         office.parseEmployees();
         waitingRoom.createPassangers();
-        return new Flight(plane, Destination.NEW_YORK, office, waitingRoom);
+        return new Flight(plane, Destination.NEW_YORK, office, waitingRoom, "Pan American", "914");
     }
 
     @Bean

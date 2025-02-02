@@ -27,10 +27,10 @@ public class Flight {
     private ArrayList<Employee> crew;
     private ArrayList<Passanger> passangers;
 
-    public Flight(Plane plane, Destination destinationPoint, Office office, WaitingRoom waitingRoom) {
+    public Flight(Plane plane, Destination destinationPoint, Office office, WaitingRoom waitingRoom, String company, String flightNumber) {
         this.plane = plane;
-        this.company = "Pan American";
-        this.flightNumber = "914";
+        this.company = company;
+        this.flightNumber = flightNumber;
         this.destinationPoint = destinationPoint;
         this.departureTime = LocalDateTime.now().plusHours(1);
         this.arriveTime = LocalDateTime.now().plusHours(10);
@@ -93,6 +93,8 @@ public class Flight {
         }
         else {
             line();
+            System.out.println("Flight #" + flightNumber);
+            System.out.println("Company: " + company);
             plane.takeoff();
             System.out.println("Departure time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(departureTime));
         }

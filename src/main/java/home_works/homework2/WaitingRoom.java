@@ -31,6 +31,7 @@ public class WaitingRoom {
                     ticket.setStatus(TicketStatus.USED);
                     iterator.remove();
                     passanger.registrationOnFlight();
+                    LOGGER.info("Ticket # "+ticket.getTicketId()+" to "+ticket.getDestination().getDescription()+", get status: " + ticket.getStatus().getDescription());
                     return passanger;
                 }
             }

@@ -13,8 +13,8 @@ public class SpringAirportClient {
         ApplicationContext context = new AnnotationConfigApplicationContext(AirportAppConfig.class);
         WaitingRoom waitingRoom = context.getBean(WaitingRoom.class);
         TicketOffice ticketOffice = context.getBean(TicketOffice.class);
-        Plane plane = context.getBean("Boeing777", Plane.class);
-        Flight flight = context.getBean(Flight.class);
+        Plane boeing777 = context.getBean("Boeing777", Plane.class);
+        Flight flightToNewYork = context.getBean(Flight.class);
 
         //продаем билеты всем пассажирам на произвольные рейсы
         for (Passanger passanger : waitingRoom.getPassangers().values()){
@@ -23,12 +23,12 @@ public class SpringAirportClient {
 
         //Отображаем данные о самолете
         line();
-        System.out.println("Plane: " + plane.getModelOfPlane()+ " - " + plane.getPassangersQuantity()+ " passenger places");
+        System.out.println("Plane: " + boeing777.getModelOfPlane()+ " - " + boeing777.getPassangersQuantity()+ " passenger places");
 
         line();
-        flight.startFlight();
+        flightToNewYork.startFlight();
         line();
-        flight.finishFlight();
+        flightToNewYork.finishFlight();
         line();
 
     }
