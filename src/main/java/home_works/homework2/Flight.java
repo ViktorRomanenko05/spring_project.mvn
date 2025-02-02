@@ -1,11 +1,8 @@
 package home_works.homework2;
 
 import com.github.javafaker.Faker;
-import home_works.homework2.spring.AirportAppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -108,6 +105,10 @@ public class Flight {
             passangers.clear();
             if (passangers.isEmpty()) {
                 System.out.println("Passengers got out");
+            }
+            for (Employee employee : crew){
+                employee.setStatus(EmployeeStatus.FREE);
+                LOGGER.info(employee.getRole().getDescription()+ " " + employee.getName() + " " +employee.getSurname() + " get status: " + employee.getStatus().getDescription());
             }
             crew.clear();
             if (crew.isEmpty()) {
