@@ -35,4 +35,11 @@ public class Employee extends Person {
         LOGGER.info(this.role.getDescription() + " " + this.getName() + " " + this.getSurname() + " registered");
     }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "role=" + role +
+                ", status=" + status +
+                "} " + super.toString();
+    }
 }

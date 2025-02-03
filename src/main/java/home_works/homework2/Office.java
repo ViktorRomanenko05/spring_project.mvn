@@ -14,26 +14,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Office {
-    private static final File file = Path.of("src","main", "java", "home_works", "homework2", "employees.txt").toFile();
-    private static HashMap <String, Employee> employees = new HashMap<>();
+    private static final File file = Path.of("src", "main", "java", "home_works", "homework2", "employees.txt").toFile();
+    private static HashMap<String, Employee> employees = new HashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(Passanger.class);
     private static Faker faker = new Faker();
 
     //Метод для парсинга данных из файла и добавления полученных объектов в HashMap
-    public void parseEmployees (){
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+    public void parseEmployees() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] employeeData = line.split(",");
-                if(employeeData.length == 4){
+                if (employeeData.length == 4) {
                     String name = employeeData[0].trim();
                     String surname = employeeData[1].trim();
                     LocalDate birthDate = LocalDate.parse(employeeData[2].trim());
                     Role role = Role.fromStringRole(employeeData[3].trim());
                     Employee employee = new Employee(name, surname, birthDate, role);
                     employees.put(employee.getId(), employee);
-                }
-                else {
+                } else {
                     LOGGER.error("Invalid employee data {}", line);
                 }
             }
@@ -43,43 +42,45 @@ public class Office {
         }
     }
 
-    public Employee findStewart () {
+    //Метод возвращает произвольного стюарта со статусом FREE
+    public Employee findStewart() {
         ArrayList<Employee> stewarts = new ArrayList<>();
-        for (Employee employee : employees.values()){
-            if (employee.getRole() == Role.STEWART && employee.getStatus() != EmployeeStatus.BUSY){
+        for (Employee employee : employees.values()) {
+            if (employee.getRole() == Role.STEWART && employee.getStatus() != EmployeeStatus.BUSY) {
                 stewarts.add(employee);
             }
         }
-        if (stewarts.isEmpty()){
+        if (stewarts.isEmpty()) {
             LOGGER.info("Stewarts not found");
             return null;
         }
-        int rndNum = faker.random().nextInt(0, stewarts.size()-1);
+        int rndNum = faker.random().nextInt(0, stewarts.size() - 1);
         Employee stewart = stewarts.get(rndNum);
         employees.get(stewart.getId()).setStatus(EmployeeStatus.BUSY);
         stewart.registrationOnFlight();
         return stewart;
     }
 
-    public Employee findPilots () {
-        ArrayList <Employee> pilots = new ArrayList<>();
-        for (Employee employee : employees.values()){
-            if (employee.getRole() == Role.PILOT && employee.getStatus() != EmployeeStatus.BUSY){
+    //метод возвращает произвольного пилота со статусом FREE
+    public Employee findPilots() {
+        ArrayList<Employee> pilots = new ArrayList<>();
+        for (Employee employee : employees.values()) {
+            if (employee.getRole() == Role.PILOT && employee.getStatus() != EmployeeStatus.BUSY) {
                 pilots.add(employee);
             }
         }
-        if (pilots.isEmpty()){
+        if (pilots.isEmpty()) {
             LOGGER.info("Pilots not found");
             return null;
         }
-        int rndNum = faker.random().nextInt(0, pilots.size()-1);
+        int rndNum = faker.random().nextInt(0, pilots.size() - 1);
         Employee pilot = pilots.get(rndNum);
         employees.get(pilot.getId()).setStatus(EmployeeStatus.BUSY);
         pilot.registrationOnFlight();
         return pilot;
     }
 
-    public HashMap <String, Employee> getEmployees() {
+    public HashMap<String, Employee> getEmployees() {
         return employees;
     }
 }

@@ -13,29 +13,30 @@ import org.springframework.context.annotation.Configuration;
 public class AirportAppConfig {
 
     @Bean
-    public Office office () {
+    public Office office() {
         return new Office();
     }
 
     @Bean
-    public WaitingRoom waitingRoom () {
+    public WaitingRoom waitingRoom() {
         return new WaitingRoom();
     }
 
+    //Так как самолет в демонстрации только один пропишем его непосредственно здесь
     @Bean(name = "Boeing777")
-    public Plane plane () {
+    public Plane plane() {
         return new Plane("Boeing 777-200ER Dreamliner", 2, 6, 314);
     }
 
     @Bean(name = "Boeing_to_New_York")
-    public Flight flightToNewYork (Plane plane, Office office, WaitingRoom waitingRoom) {
-        office.parseEmployees();
-        waitingRoom.createPassangers();
+    public Flight flightToNewYork(Plane plane, Office office, WaitingRoom waitingRoom) {
+        office.parseEmployees(); //временно здесь, пока не знаем как правильно конфигурировать
+        waitingRoom.createPassangers();// также^
         return new Flight(plane, Destination.NEW_YORK, office, waitingRoom, "Pan American", "914");
     }
 
     @Bean
-    public TicketOffice ticketOffice (Office office) {
+    public TicketOffice ticketOffice(Office office) {
         return new TicketOffice(office);
     }
 }

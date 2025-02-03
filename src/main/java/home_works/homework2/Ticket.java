@@ -3,6 +3,7 @@ package home_works.homework2;
 import com.github.javafaker.Faker;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Ticket {
 
@@ -24,6 +25,31 @@ public class Ticket {
         this.status = TicketStatus.BOOKED;
         this.salesAgent = salesAgent;
         this.passanger = passanger;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return Objects.equals(ticketId, ticket.ticketId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(ticketId);
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId='" + ticketId + '\'' +
+                ", purchaseTime=" + purchaseTime +
+                ", expirationTime=" + expirationTime +
+                ", destination=" + destination +
+                ", status=" + status +
+                ", salesAgent=" + salesAgent +
+                ", passanger=" + passanger +
+                '}';
     }
 
     public String getTicketId() {

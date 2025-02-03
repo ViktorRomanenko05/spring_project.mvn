@@ -38,58 +38,54 @@ public class Flight {
         this.waitingRoom = waitingRoom;
     }
 
-    public boolean boarding (){
-        for (int i = 0; i < plane.getPilotsQuantity(); i++){
+    //Метод регистрации на рейс
+    public boolean boarding() {
+        for (int i = 0; i < plane.getPilotsQuantity(); i++) {
             Employee pilot = office.findPilots();
-            if (pilot != null){
+            if (pilot != null) {
                 crew.add(pilot);
-            }
-            else break;
+            } else break;
         }
         if (checkPilotsQuantity() < plane.getPilotsQuantity()) {
             LOGGER.info("Pilots is missing for departure");
             return false;
-        }
-        else{
+        } else {
             LOGGER.info("Pilots on board");
         }
-        for (int i = 0; i < plane.getStewartsQuantity(); i++){
+        for (int i = 0; i < plane.getStewartsQuantity(); i++) {
             Employee stewart = office.findStewart();
-            if (stewart != null){
+            if (stewart != null) {
                 crew.add(stewart);
-            }
-            else break;
+            } else break;
         }
         if (checkStewartsQuantity() < plane.getStewartsQuantity()) {
             LOGGER.info("Stewarts is missing for departure");
             return false;
-        }
-        else{
+        } else {
             LOGGER.info("Stewarts on board");
         }
-        for (int i = 0; i <plane.getPassangersQuantity(); i++){
+        for (int i = 0; i < plane.getPassangersQuantity(); i++) {
             Passanger passanger = waitingRoom.findPassengers(destinationPoint);
             if (passanger != null) {
-            passangers.add(passanger);}
-            else break;
+                passangers.add(passanger);
+            } else break;
         }
         if (passangers.isEmpty()) {
             LOGGER.info("Passangers is missing");
             return false;
-        }
-        else{
+        } else {
             line();
             LOGGER.info(passangers.size() + " Passangers on board");
         }
         return true;
     }
 
-    public void startFlight () {
-        if (!boarding()){
+    //Метод начала полета
+    public void startFlight() {
+        if (!boarding()) {
             line();
             LOGGER.info("Takeoff is impossible");
-        }
-        else {
+        } else {
             line();
             System.out.println("Flight #" + flightNumber);
             System.out.println("Company: " + company);
@@ -99,16 +95,17 @@ public class Flight {
         }
     }
 
-    public void finishFlight () {
+    //Метод завершения полета
+    public void finishFlight() {
         if (flightIsOk) {
             plane.landing();
             passangers.clear();
             if (passangers.isEmpty()) {
                 System.out.println("Passengers got out");
             }
-            for (Employee employee : crew){
+            for (Employee employee : crew) {
                 employee.setStatus(EmployeeStatus.FREE);
-                LOGGER.info(employee.getRole().getDescription()+ " " + employee.getName() + " " +employee.getSurname() + " get status: " + employee.getStatus().getDescription());
+                LOGGER.info(employee.getRole().getDescription() + " " + employee.getName() + " " + employee.getSurname() + " get status: " + employee.getStatus().getDescription());
             }
             crew.clear();
             if (crew.isEmpty()) {
@@ -118,12 +115,12 @@ public class Flight {
         }
     }
 
-    private int checkPilotsQuantity (){
-        long pilotsQuantity = crew.stream().filter(employee -> employee.getRole() == Role.PILOT ).count();
+    private int checkPilotsQuantity() {
+        long pilotsQuantity = crew.stream().filter(employee -> employee.getRole() == Role.PILOT).count();
         return (int) pilotsQuantity;
     }
 
-    private int checkStewartsQuantity () {
+    private int checkStewartsQuantity() {
         long stewartsQuantity = crew.stream().filter(employee -> employee.getRole() == Role.STEWART).count();
         return (int) stewartsQuantity;
     }
@@ -160,7 +157,24 @@ public class Flight {
         return passangers;
     }
 
-    private static void line () {
+    private static void line() {
         System.out.println("---------------------------------------------------------------------------------------");
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "office=" + office +
+                ", waitingRoom=" + waitingRoom +
+                ", plane=" + plane +
+                ", flightNumber='" + flightNumber + '\'' +
+                ", company='" + company + '\'' +
+                ", destinationPoint=" + destinationPoint +
+                ", departureTime=" + departureTime +
+                ", arriveTime=" + arriveTime +
+                ", crew=" + crew +
+                ", passangers=" + passangers +
+                ", flightIsOk=" + flightIsOk +
+                '}';
     }
 }

@@ -1,4 +1,5 @@
 package home_works.homework2;
+
 import lombok.Getter;
 
 @Getter

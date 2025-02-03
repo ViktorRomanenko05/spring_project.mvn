@@ -1,8 +1,8 @@
 package home_works.homework2;
 
 public enum EmployeeStatus {
-    FREE ("free"),
-    BUSY ("busy");
+    FREE("free"),
+    BUSY("busy");
 
     private String description;
 

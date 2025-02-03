@@ -7,20 +7,24 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class WaitingRoom {
-    private static HashMap <String, Passanger> passangers = new HashMap<>();
+    private static HashMap<String, Passanger> passangers = new HashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(WaitingRoom.class);
 
-    public void createPassangers () {
-        for (int i = 0 ; i < 500 ; i++){
+    //метод генерации данных пассажиров в зале ожидания
+    public void createPassangers() {
+        for (int i = 0; i < 500; i++) {
             Passanger passanger = new Passanger();
             passangers.put(passanger.getId(), passanger);
-            if (passangers.isEmpty()){
+            if (passangers.isEmpty()) {
                 LOGGER.error("Passangers was not added");
+                return;
             }
         }
+
         LOGGER.info("Waiting room is full");
     }
 
+    //Метод возвращае произвольного пассажира с билетом на необходимое направление
     public Passanger findPassengers(Destination destinationPoint) {
         Iterator<Passanger> iterator = passangers.values().iterator();
 
@@ -31,7 +35,7 @@ public class WaitingRoom {
                     ticket.setStatus(TicketStatus.USED);
                     iterator.remove();
                     passanger.registrationOnFlight();
-                    LOGGER.info("Ticket # "+ticket.getTicketId()+" to "+ticket.getDestination().getDescription()+", get status: " + ticket.getStatus().getDescription());
+                    LOGGER.info("Ticket # " + ticket.getTicketId() + " to " + ticket.getDestination().getDescription() + ", get status: " + ticket.getStatus().getDescription());
                     return passanger;
                 }
             }

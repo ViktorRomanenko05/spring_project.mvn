@@ -17,13 +17,13 @@ public class SpringAirportClient {
         Flight flightToNewYork = context.getBean(Flight.class);
 
         //продаем билеты всем пассажирам на произвольные рейсы
-        for (Passanger passanger : waitingRoom.getPassangers().values()){
+        for (Passanger passanger : waitingRoom.getPassangers().values()) {
             ticketOffice.sellTicket(passanger);
         }
 
         //Отображаем данные о самолете
         line();
-        System.out.println("Plane: " + boeing777.getModelOfPlane()+ " - " + boeing777.getPassangersQuantity()+ " passenger places");
+        System.out.println("Plane: " + boeing777.getModelOfPlane() + " - " + boeing777.getPassangersQuantity() + " passenger places");
 
         line();
         flightToNewYork.startFlight();
@@ -32,7 +32,8 @@ public class SpringAirportClient {
         line();
 
     }
-    private static void line () {
+
+    private static void line() {
         System.out.println("---------------------------------------------------------------------------------------");
     }
 }

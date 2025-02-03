@@ -1,4 +1,5 @@
 package home_works.homework2;
+
 import lombok.Getter;
 
 @Getter
@@ -7,7 +8,7 @@ public enum Role {
     STEWART("stewart"),
     TECHNIKER("techniker"),
     ADMINISTRATOR("administrator"),
-    SALES_AGENT ("sales agent");
+    SALES_AGENT("sales agent");
 
     private String description;
 
@@ -16,20 +17,18 @@ public enum Role {
     }
 
     //Приведение значения из String в Role
-    public static Role fromStringRole (String role){
-        if(role.trim().equalsIgnoreCase("pilot")){
+    public static Role fromStringRole(String role) {
+        if (role.trim().equalsIgnoreCase("pilot")) {
             return Role.PILOT;
-        }
-        else if(role.equals("stewart")){
+        } else if (role.equals("stewart")) {
             return Role.STEWART;
-        }
-        else if(role.equals("techniker")){
+        } else if (role.equals("techniker")) {
             return Role.TECHNIKER;
-        }
-        else if(role.equals("administrator")){
+        } else if (role.equals("administrator")) {
             return Role.ADMINISTRATOR;
+        } else {
+            return Role.SALES_AGENT;
         }
-        else {return Role.SALES_AGENT;}
     }
 
 }

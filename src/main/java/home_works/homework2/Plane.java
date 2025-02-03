@@ -19,11 +19,13 @@ public class Plane {
         this.passangersQuantity = passangersQuantity;
     }
 
-    public void takeoff () {
+    //Взлет
+    public void takeoff() {
         LOGGER.info("The plane took off");
     }
 
-    public void landing () {
+    //Посадка
+    public void landing() {
         LOGGER.info("The plane landed");
     }
 
@@ -41,5 +43,15 @@ public class Plane {
 
     public int getPassangersQuantity() {
         return passangersQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "modelOfPlane='" + modelOfPlane + '\'' +
+                ", pilotsQuantity=" + pilotsQuantity +
+                ", stewartsQuantity=" + stewartsQuantity +
+                ", passangersQuantity=" + passangersQuantity +
+                '}';
     }
 }

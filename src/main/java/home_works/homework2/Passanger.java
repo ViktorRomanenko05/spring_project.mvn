@@ -20,4 +20,11 @@ public class Passanger extends Person {
     public void registrationOnFlight() {
         LOGGER.info("Passanger " + this.getName() + " " + this.getSurname() + " was registered");
     }
+
+    @Override
+    public String toString() {
+        return "Passanger{" +
+                "tickets=" + tickets +
+                "} " + super.toString();
+    }
 }
