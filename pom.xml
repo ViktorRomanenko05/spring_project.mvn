@@ -3,7 +3,7 @@
         xmlns="http://maven.apache.org/POM/4.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+                            http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <!-- Модель POM -->
     <modelVersion>4.0.0</modelVersion>
@@ -24,7 +24,8 @@
         <!-- Версии зависимостей -->
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <logback.version>1.4.12</logback.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <!-- !! Исправлено: SLF4J 2.0.x для Logback 1.4.x -->
+        <slf4j.version>2.0.9</slf4j.version>
         <lombok.version>1.18.36</lombok.version>
         <faker.version>1.0.2</faker.version>
         <commons.validator.version>1.9.0</commons.validator.version>
@@ -34,7 +35,7 @@
     <dependencies>
 
         <!-- ====== Spring ====== -->
-        <!-- spring-context (milestone-версия) -->
+        <!-- Milestone-версия Spring Context -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -42,12 +43,13 @@
         </dependency>
 
         <!-- ====== Логирование ====== -->
+        <!-- Logback (классическая реализация) -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
-
+        <!-- SLF4J API (должен соответствовать 2.0.x при использовании Logback 1.4.x) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -68,7 +70,6 @@
             <artifactId>javafaker</artifactId>
             <version>${faker.version}</version>
         </dependency>
-
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
@@ -76,14 +77,13 @@
         </dependency>
 
         <!-- ====== Тестирование ====== -->
-        <!-- Logcaptor для проверки логов в тестах -->
+        <!-- Logcaptor (для проверки логов в тестах) -->
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>logcaptor</artifactId>
             <version>2.10.1</version>
             <scope>test</scope>
         </dependency>
-
         <!-- JUnit Jupiter API, Engine, Vintage, Params -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -91,21 +91,18 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
@@ -113,14 +110,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Apache POI (пакет для работы с файлами MS Office) -->
+        <!-- ====== Apache POI (работа с MS Office) ====== -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>5.2.3</version>
         </dependency>
-
-        <!-- Apache POI для OOXML (XLSX, DOCX и т.д.) -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
