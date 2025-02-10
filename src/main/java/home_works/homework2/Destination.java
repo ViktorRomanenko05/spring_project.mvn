@@ -16,7 +16,4 @@ public enum Destination {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }

@@ -1,16 +1,16 @@
 package home_works.homework2;
 
+import lombok.Getter;
+
+@Getter
 public enum EmployeeStatus {
     FREE("free"),
     BUSY("busy");
 
-    private String description;
+    private final String description;
 
     EmployeeStatus(String description) {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }

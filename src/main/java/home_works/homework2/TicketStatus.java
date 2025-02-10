@@ -9,7 +9,7 @@ public enum TicketStatus {
     CANCELED("cancelled"),
     USED("used");
 
-    private String description;
+    private final String description;
 
     TicketStatus(String description) {
         this.description = description;

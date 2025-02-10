@@ -12,8 +12,8 @@ abstract class Person {
 
     private final String name;
     private final String surname;
-    private LocalDate dateOfBirth;
-    private String id;
+    private final LocalDate dateOfBirth;
+    private final String id;
 
     Faker faker = new Faker();
 

@@ -10,7 +10,7 @@ public enum Role {
     ADMINISTRATOR("administrator"),
     SALES_AGENT("sales agent");
 
-    private String description;
+    private final String description;
 
     Role(String description) {
         this.description = description;

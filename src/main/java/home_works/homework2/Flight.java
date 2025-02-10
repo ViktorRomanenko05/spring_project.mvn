@@ -100,17 +100,13 @@ public class Flight {
         if (flightIsOk) {
             plane.landing();
             passangers.clear();
-            if (passangers.isEmpty()) {
-                System.out.println("Passengers got out");
-            }
+            System.out.println("Passengers got out");
             for (Employee employee : crew) {
                 employee.setStatus(EmployeeStatus.FREE);
                 LOGGER.info(employee.getRole().getDescription() + " " + employee.getName() + " " + employee.getSurname() + " get status: " + employee.getStatus().getDescription());
             }
             crew.clear();
-            if (crew.isEmpty()) {
-                System.out.println("Crew got out");
-            }
+            System.out.println("Crew got out");
             System.out.println("Arrive time: " + DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm").format(arriveTime));
         }
     }

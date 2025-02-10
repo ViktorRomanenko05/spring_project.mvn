@@ -28,15 +28,16 @@ public class AirportAppConfig {
         return new Plane("Boeing 777-200ER Dreamliner", 2, 6, 314);
     }
 
+    //Для демонстрации используем только один рейс
     @Bean(name = "Boeing_to_New_York")
     public Flight flightToNewYork(Plane plane, Office office, WaitingRoom waitingRoom) {
         office.parseEmployees(); //временно здесь, пока не знаем как правильно конфигурировать
-        waitingRoom.createPassangers();// также^
+        waitingRoom.createPassengers();// также^
         return new Flight(plane, Destination.NEW_YORK, office, waitingRoom, "Pan American", "914");
     }
 
     @Bean
-    public TicketOffice ticketOffice(Office office) {
-        return new TicketOffice(office);
+    public TicketOffice ticketOffice(Office office, WaitingRoom waitingRoom) {
+        return new TicketOffice(office, waitingRoom);
     }
 }

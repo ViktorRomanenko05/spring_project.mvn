@@ -10,15 +10,17 @@ import java.util.HashMap;
 public class TicketOffice {
 
     private final Office office;
+    private final WaitingRoom waitingRoom;
     Faker faker = new Faker();
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketOffice.class);
 
-    public TicketOffice(Office office) {
+    public TicketOffice(Office office, WaitingRoom waitingRoom) {
         this.office = office;
+        this.waitingRoom = waitingRoom;
     }
 
-    private static HashMap<String, Ticket> tickets = new HashMap<>();
-    ArrayList<Employee> salesAgents = new ArrayList<>();
+    private static final HashMap <String, Ticket> tickets = new HashMap<>();
+    private static final ArrayList<Employee> salesAgents = new ArrayList<>();
 
     //Метод продажи билета
     public void sellTicket(Passanger passanger) {
@@ -51,7 +53,25 @@ public class TicketOffice {
         for (Employee employee : office.getEmployees().values()) {
             if (employee.getRole() == Role.SALES_AGENT && employee.getStatus() != EmployeeStatus.BUSY) {
                 office.getEmployees().get(employee.getId()).setStatus(EmployeeStatus.BUSY);
+                LOGGER.info("Sales agent "+ employee.getName()+" "+ employee.getSurname() +" get status "+ employee.getStatus().getDescription());
                 salesAgents.add(employee);
+            }
+        }
+    }
+
+    //Метод для продажи билетов всем пассажирам в WaitingRoom на произвольные направления
+    public void sellTicketsForAll(){
+        for (Passanger passanger : waitingRoom.getPassengers().values()) {
+            sellTicket(passanger);
+        }
+    }
+
+    //Метод для освобождения сотрудников TicketOffice
+    public void freeSalesAgents(){
+        for (Employee employee : salesAgents){
+            if (employee.getStatus() == EmployeeStatus.BUSY){
+                employee.setStatus(EmployeeStatus.FREE);
+                LOGGER.info("Sales agent "+ employee.getName()+" "+ employee.getSurname() +" get status "+ employee.getStatus().getDescription());
             }
         }
     }
