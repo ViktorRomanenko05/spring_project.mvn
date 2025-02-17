@@ -44,7 +44,7 @@ public class WaitingRoom {
         return null;
     }
 
-    public Map<String, Passanger> getPassengers() {
+    public Map<String, Passanger> getPassangers() {
         return passengers;
     }
 }

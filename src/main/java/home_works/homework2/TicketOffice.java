@@ -61,7 +61,7 @@ public class TicketOffice {
 
     //Метод для продажи билетов всем пассажирам в WaitingRoom на произвольные направления
     public void sellTicketsForAll(){
-        for (Passanger passanger : waitingRoom.getPassengers().values()) {
+        for (Passanger passanger : waitingRoom.getPassangers().values()) {
             sellTicket(passanger);
         }
     }
